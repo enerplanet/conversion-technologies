@@ -165,6 +165,7 @@ get it, depending on how much you want in one file:
 | One category, one file | `conversion-technologies export-all --category hp -o heat_pump.yaml` |
 | One category, one file per tech | `conversion-technologies export-all --category hp -o some_dir/` |
 | Everything, or an exact scenario | `conversion-technologies export-all [--config scenario.json]` |
+| Every technology as one JSON catalog | `conversion-technologies export-json [-o technologies.json]` |
 
 Whether `-o`/`--output` produces one combined file or one file per
 technology is decided by its suffix: `.yaml`/`.yml` combines everything

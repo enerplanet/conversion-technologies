@@ -267,3 +267,20 @@ def test_weather_cop_command_writes_three_files(tmp_path: Path, monkeypatch) -> 
     assert (output_dir / "heat_pump_electric_household_flow_out_eff.csv").exists()
     assert (output_dir / "heat_pump_electric_household_flow_in_eff.csv").exists()
     assert (output_dir / "heat_pump_electric_household_data_tables.yaml").exists()
+
+
+def test_export_json_writes_every_technology_with_units(tmp_path: Path) -> None:
+    output = tmp_path / "technologies.json"
+    exit_code = main(["export-json", "-o", str(output)])
+    assert exit_code == 0
+    catalog = json.loads(output.read_text(encoding="utf-8"))
+    assert catalog["units"] == {"capacity": "kW", "energy": "kWh", "currency": "USD"}
+    ids = [t["id"] for t in catalog["technologies"]]
+    assert len(ids) == len(set(ids)) > 0
+    heat_pump = next(
+        t for t in catalog["technologies"] if t["id"] == "heat_pump_electric_household"
+    )
+    assert heat_pump["carriers_out"]["heat"] > 1, (
+        "a heat pump delivers more heat than it uses electricity"
+    )
+    assert heat_pump["carriers_in"]["electricity"] > 0

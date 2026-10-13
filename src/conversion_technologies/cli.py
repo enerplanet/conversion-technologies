@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import dataclasses
+import json
 import sys
 from pathlib import Path
 
@@ -201,6 +203,27 @@ def _cmd_export_all(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_export_json(args: argparse.Namespace) -> int:
+    """Write every registered technology as one JSON catalog, for consumers
+    that read the parameters rather than Calliope YAML."""
+    output = (
+        Path(args.output)
+        if args.output
+        else Path(SETTINGS.output_dir) / "technologies.json"
+    )
+    catalog = {
+        "version": __version__,
+        "units": {"capacity": "kW", "energy": "kWh", "currency": "USD"},
+        "technologies": [
+            dataclasses.asdict(tech) for _, tech in sorted(all_technologies().items())
+        ],
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {output}")
+    return 0
+
+
 def _cmd_weather_cop(args: argparse.Namespace) -> int:
     # Imported here, not at module level: this is the one CLI command that
     # needs pandas/weather (via new.heat_pump.weather_cop), which every
@@ -291,6 +314,18 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     export_parser.set_defaults(func=_cmd_export)
+
+    export_json_parser = subparsers.add_parser(
+        "export-json",
+        help="Export every registered technology as one JSON catalog.",
+    )
+    export_json_parser.add_argument(
+        "-o",
+        "--output",
+        default=None,
+        help="Output JSON path (default: <output_dir>/technologies.json)",
+    )
+    export_json_parser.set_defaults(func=_cmd_export_json)
 
     export_all_parser = subparsers.add_parser(
         "export-all",

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `export-json` writes every registered technology as one JSON catalog
+  (`technologies.json`): each technology's carriers with their ratios,
+  capacity, lifetime, costs and passthrough parameters, plus the package
+  version and units (kW, kWh, USD).
+
 ### Changed
 
 - **BREAKING: `weather-cop` now fetches weather data directly from the
