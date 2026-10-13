@@ -69,8 +69,8 @@ version_file = "src/conversion_technologies/_version.py"
 line-length = 88
 target-version = "py312"
 src = ["src"]
-# existing/ (fireplace.py) is a pre-existing, out-of-scope module left untouched
-# per .claude/resolved.md ("existing-vs-new") -- not linted/formatted by this project.
+# existing/ (fireplace.py) is a pre-existing, out-of-scope module, not linted or
+# formatted by this project.
 extend-exclude = ["src/conversion_technologies/existing"]
 
 [tool.ruff.lint]

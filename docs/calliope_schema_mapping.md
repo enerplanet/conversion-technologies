@@ -15,8 +15,8 @@ targets, and known limitations.
 
 (An earlier version of this package also shipped a `legacy_v051` exporter
 targeting [Calliope v0.5.1](https://calliope.readthedocs.io/en/v0.5.1/user/configuration_reference.html#abstract-base-technologies).
-It was removed once it was clear only current Calliope was actually in use
-— see `.claude/resolved.md`. The internal model stayed version-agnostic
+It was removed once it was clear only current Calliope was actually in use.
+The internal model stayed version-agnostic
 regardless, so a second exporter is still just one new module away if a
 v0.5.1 need ever comes back.)
 
@@ -46,7 +46,7 @@ gets the `{data, index: monetary, dims: costs}` wrapper, everything else is
 written as-is. There is no lookup table to keep in sync; a CSV column *is*
 the output key. This is why the columns already use Calliope's own naming
 (`cost_flow_cap`, `flow_ramping`, ...) rather than an arbitrary internal
-vocabulary — see `CLAUDE.md` "Hard conventions" #7.
+vocabulary; see [`architecture.md`](architecture.md), "Conventions" #7.
 
 ## Cost columns (`costs.csv`), confirmed against Calliope's math docs
 
@@ -164,8 +164,7 @@ This still covers only fixed-ratio multi-carrier sides, not genuinely
 alternative/either-or carriers (what v0.5.1 called `carrier_tiers` — e.g.
 "burn either natural gas or hydrogen, whichever is available"). No
 technology in this package needs that; if one ever does, it requires
-different hand-written "user-defined math" than the above. See
-`.claude/open.md`.
+different hand-written "user-defined math" than the above.
 
 **Caveat, stated plainly**: this was derived algebraically from Calliope's
 published base math and cross-checked against its own official example —
@@ -183,8 +182,7 @@ opt-in path that computes a *real* hourly COP from an actual 2 m
 outdoor-air temperature series instead, for whoever wants a time-varying
 `flow_out_eff`/`flow_in_eff` rather than the design-point scalar. It does
 **not** change the registry or the `modern`/`ratio_math` exporters — the
-catalog stays design-point-only by design (`.claude/heat_pump/resolved.md`
-"weather-integration-scope").
+catalog stays design-point-only by design.
 
 The temperature series comes from the sibling
 [`weather`](https://github.com/UU-BUEM/weather) package's own

@@ -155,9 +155,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   -- household 100 kW / building 2,000 kW / community 50,000 kW), enforced
   on `flow_cap_max` in all three categories' `specific/__init__.py` via
   `require_scale_capacity`. These are deliberately generous, typo-catching
-  sanity bounds shared across categories, not literal engineering limits --
-  see `.claude/resolved.md` "validation-in-source" for why household is
-  100 kW rather than the 5,000 kW originally suggested (5,000 kW is
+  sanity bounds shared across categories, not literal engineering limits;
+  household is 100 kW rather than the 5,000 kW originally suggested (5,000 kW is
   utility-scale, not household-scale; using it as the household ceiling
   would defeat the point of a sanity check).
 

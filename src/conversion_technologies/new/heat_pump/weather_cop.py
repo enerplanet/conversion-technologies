@@ -2,9 +2,8 @@
 from the registry's fixed design-point COP.
 
 Deliberately **not** wired into ``new/heat_pump/specific/__init__.py``'s
-zero-argument registry builders -- see ``.claude/heat_pump/resolved.md``
-"weather-integration-scope", which anticipated exactly this as "a new,
-non-catalog entry point". The catalog's design-point COP is unchanged; this
+zero-argument registry builders: it is a separate, non-catalog entry point.
+The catalog's design-point COP is unchanged; this
 module produces a second, opt-in artifact (two ``data_tables`` CSVs + the
 YAML block referencing them) for one specific technology, from a real
 2 m outdoor-air temperature series, for whoever wants an hourly-varying COP

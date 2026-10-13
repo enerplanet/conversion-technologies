@@ -31,7 +31,7 @@ bash setup.sh
 Numeric defaults (capacity, lifetime, efficiency/COP/dispatch-factor inputs
 in `new/technologies.csv`; every `cost_*` value in `new/costs.csv`, joined
 by category/variant/scale) — never hardcode them in Python. See
-`CLAUDE.md` → "Extension points".
+[`docs/architecture.md`](docs/architecture.md) → "Extension points".
 
 **Editing the CSVs in LibreOffice Calc**: it will prompt "Use CSV format!"
 on save. Click it — that warning is about losing multiple

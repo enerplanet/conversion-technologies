@@ -1,29 +1,15 @@
-# conversion-technologies — agent context
-
-## What this repo is
+# Architecture
 
 Generates Calliope-compatible technology YAML configs for heat-producing
-energy conversion technologies — heat pumps, boilers, combined heat and
-power (CHP) — from household to community scale. Sibling to `UU-BUEM/weather`
-and `UU-BUEM/occupancy` (same packaging/tooling conventions).
+energy conversion technologies (heat pumps, boilers, combined heat and power)
+from household to community scale.
 
-Feeds into a [Calliope](https://github.com/calliope-project/calliope) energy
-system model as per-technology YAML files under a `techs:` key, plus (for
-any technology with more than one carrier on one side, e.g. heat pump or
-CHP) an accompanying `additional_math.yaml` a real solve actually needs to
-respect that technology's fixed carrier ratio — see
-`docs/calliope_schema_mapping.md` "Carrier ratio math", "Weather-driven COP
-profiles", and "Units, currency, and Calliope version" for the full
-reference (including which Calliope version/pin this targets — it's still
-pre-release).
-
-## Operating rules for Claude Code
-
-- **Load only what's relevant.** This file is always loaded; `.claude/<category>/{open,resolved}.md`
-  is loaded only when working on that category (`boiler`, `heat_pump`, `combined_heat_and_power`).
-  Check `resolved.md` before proposing a change — it lists decisions already made, "do not re-raise."
-- **Keep docs current in the same commit** as the code change they describe.
-- **Summarize file changes** at the end of each turn (or state "No files were updated").
+Each technology is written as a YAML file under a `techs:` key. A technology
+with more than one carrier on one side, such as a heat pump or CHP, also gets
+an `additional_math.yaml` that a solve needs to respect its fixed carrier
+ratio; see [`calliope_schema_mapping.md`](calliope_schema_mapping.md),
+"Carrier ratio math", "Weather-driven COP profiles" and "Units, currency, and
+Calliope version".
 
 ## Repository layout
 
@@ -43,8 +29,7 @@ src/conversion_technologies/
 │   └── data_loader.py    # importlib.resources JSON loader (used by config/ only)
 ├── calliope_export/
 │   ├── modern.py          # -> conversion, flow_* naming (current Calliope; the
-│   │                      #   only exporter -- legacy_v051 was removed, see
-│   │                      #   .claude/resolved.md)
+│   │                      #   only exporter)
 │   ├── ratio_math.py      # build_ratio_math() -- the accompanying Calliope custom
 │   │                      #   math a multi-carrier technology (heat pump, CHP) needs
 │   │                      #   so a solve actually respects its fixed carrier ratio;
@@ -66,7 +51,7 @@ src/conversion_technologies/
 ├── existing/              # OUT OF SCOPE: fireplace.py, a bottom-up occupancy+weather
 │                          #   driven simulation of already-installed stock. Different
 │                          #   modeling paradigm; do not fold this into new/'s pattern
-│                          #   without an explicit decision to do so (see .claude/resolved.md).
+│                          #   without an explicit decision to do so.
 ├── cli.py, __main__.py, __init__.py, settings.py
 ```
 
@@ -92,7 +77,7 @@ reads.
 column (to `costs.csv` if it's a `cost_*` parameter, `technologies.csv`
 otherwise) under the exact name current Calliope uses -- `modern.py` needs
 no change, it passes every `TechnologySpec.params` entry through under its
-own key already (see "Hard conventions" #7 below).
+own key already (see "Conventions" #7 below).
 
 **A genuinely new category** (different carrier topology/formula):
 
@@ -108,7 +93,7 @@ own key already (see "Hard conventions" #7 below).
    goes in `new/<category>/generic/`, never duplicated per variant.
 4. Import the category package from `new/__init__.py`.
 
-## Hard conventions (do not violate)
+## Conventions
 
 1. **No hardcoded numeric defaults in Python.** Every technology's fixed
    parameters live in `new/technologies.csv` + `new/costs.csv`, loaded via
@@ -152,8 +137,7 @@ python validate.py
 
 ## Known limitations / follow-ups
 
-See `.claude/open.md` (cross-cutting) and `.claude/<category>/open.md`
-(per-category). Notably: the `modern` exporter's per-carrier
+The `modern` exporter's per-carrier
 `flow_in_eff`/`flow_out_eff` alone does **not** correctly enforce a
 technology's fixed carrier ratio once it has more than one carrier on a
 side (heat pump, CHP) — `ratio_math.py` generates the accompanying custom

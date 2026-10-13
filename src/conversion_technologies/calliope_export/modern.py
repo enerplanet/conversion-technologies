@@ -11,7 +11,7 @@ It is NOT sufficient for genuinely alternative/either-or carrier choices
 (what v0.5.1 called ``carrier_tiers``) — Calliope removed that from the base
 schema entirely; expressing it now requires hand-written "user-defined math".
 No technology in this package currently needs that, so exporters here raise
-nothing for it, but see docs/calliope_schema_mapping.md and .claude/open.md.
+nothing for it; see docs/calliope_schema_mapping.md.
 
 ``TechnologySpec.params`` is passed straight through here under its own
 keys (unknown here, uninvented) -- e.g. a ``technologies.csv`` column named

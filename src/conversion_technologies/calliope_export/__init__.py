@@ -2,7 +2,7 @@
 
 Only ``modern`` (current Calliope) exists today -- the earlier ``legacy_v051``
 exporter was removed once it became clear only current Calliope was actually
-in use (see ``.claude/resolved.md``). The registry stays dict-based, not a
+in use. The registry stays dict-based, not a
 single hardcoded call, so adding a schema back (or a new one) is still just
 one module + one line here, not a CLI/exporter-shape change.
 """

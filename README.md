@@ -244,4 +244,4 @@ docker compose -f infrastructure/container/docker-compose.yml run conversion-tec
 | `CONVERSION_TECH_PARAMS_DIR` | *(bundled CSVs)* | Absolute path to a folder with your own `technologies.csv` + `costs.csv`, replacing the bundled defaults entirely. Must be set before the CLI runs. |
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the development workflow and
-[`CLAUDE.md`](CLAUDE.md) for the architecture/agent-context reference.
+[`docs/architecture.md`](docs/architecture.md) for the architecture reference.
