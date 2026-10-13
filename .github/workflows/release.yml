@@ -24,7 +24,12 @@ jobs:
         run: |
           pip install build
           python -m build
-
+      # The JSON catalog is attached to the release for consumers that 
+      # read the technology parameters instead of Calliope YAML.
+      - name: Export the technology catalog
+        run: |
+          pip install dist/*.whl
+          conversion-technologies export-json -o dist/technologies.json
       - uses: softprops/action-gh-release@v2
         with:
           files: dist/*
